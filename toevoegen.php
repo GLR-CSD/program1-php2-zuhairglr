@@ -53,18 +53,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Voeg de persoon toe aan de database
         $persoon->save($db);
 
-        // Stuur de gebruiker terug naar de index.php
-        header("Location: index.php");
-        exit;
     } else {
         // Sla de fouten en formulier waarden op in sessievariabelen
         $_SESSION['errors'] = $errors;
         $_SESSION['formValues'] = $formValues;
-
-        // Stuur de gebruiker terug naar de index.php
-        header("Location: index.php");
-        exit;
     }
+
+    // Stuur de gebruiker terug naar de index.php
+    header("Location: index.php");
+    exit;
+
 } else {
     header("Location: index.php");
 }
