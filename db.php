@@ -1,4 +1,7 @@
 <?php
+// Set strict types
+declare(strict_types=1);
+
 // require autoload
 require_once 'vendor/autoload.php';
 

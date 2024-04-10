@@ -1,4 +1,7 @@
 <?php
+// Set strict types
+declare(strict_types=1);
+
 class Persoon {
     /** @var int|null Het ID van de persoon */
     private ?int $id;
@@ -62,7 +65,7 @@ class Persoon {
         $stmt->bindParam(':id', $id);
         $stmt->execute();
 
-        // Returneer een persoon als gevonden, anders null
+        // Retourneer een persoon als gevonden, anders null
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return new Persoon(
                 $row['id'],
@@ -78,10 +81,18 @@ class Persoon {
     }
 
     // Methode om personen te zoeken op basis van achternaam
-    public static function findByAchternaam($db, $achternaam): array
+    public static function findByAchternaam($db, string $achternaam): array
     {
+        //Zet de achternaam eerst om naar lowercase letters
+        $achternaam = strtolower($achternaam);
+
         // Voorbereiden van de query
-        $stmt = $db->prepare("SELECT * FROM persoon WHERE achternaam = :achternaam");
+        $stmt = $db->prepare("SELECT * FROM persoon WHERE LOWER(achternaam) LIKE :achternaam");
+
+        // Voeg wildcard toe aan de achternaam
+        $achternaam = "%$achternaam%";
+
+        // Bind de achternaam aan de query en voer deze uit
         $stmt->bindParam(':achternaam', $achternaam);
         $stmt->execute();
 
