@@ -21,8 +21,18 @@ class Persoon {
     /** @var string|null Eventuele opmerkingen over de persoon */
     private ?string $opmerkingen;
 
-    // Constructor
-    public function __construct($id, $voornaam, $achternaam, $telefoonnummer, $email, $opmerkingen) {
+    /**
+     * Constructor voor het maken van een Persoon object.
+     *
+     * @param int|null $id Het ID van de persoon.
+     * @param string $voornaam De voornaam van de persoon.
+     * @param string $achternaam De achternaam van de persoon.
+     * @param string|null $telefoonnummer Het telefoonnummer van de persoon (optioneel).
+     * @param string|null $email Het e-mailadres van de persoon (optioneel).
+     * @param string|null $opmerkingen Eventuele opmerkingen over de persoon (optioneel).
+     */
+    public function __construct(?int $id, string $voornaam, string $achternaam, ?string $telefoonnummer, ?string $email, ?string $opmerkingen)
+    {
         $this->id = $id;
         $this->voornaam = $voornaam;
         $this->achternaam = $achternaam;
@@ -31,8 +41,13 @@ class Persoon {
         $this->opmerkingen = $opmerkingen;
     }
 
-    // Methode om alle personen uit de database op te halen
-    public static function getAll($db): array
+    /**
+     * Haalt alle personen op uit de database.
+     *
+     * @param PDO $db De PDO-databaseverbinding.
+     * @return Persoon[] Een array van Persoon-objecten.
+     */
+    public static function getAll(PDO $db): array
     {
         // Voorbereiden van de query
         $stmt = $db->query("SELECT * FROM persoon");
@@ -57,8 +72,14 @@ class Persoon {
         return $personen;
     }
 
-    // Methode om een persoon te vinden op basis van ID
-    public static function findById($db, $id): ?Persoon
+    /**
+     * Zoek personen op basis van id.
+     *
+     * @param PDO $db De PDO-databaseverbinding.
+     * @param int $id Het unieke ID van een persoon waarnaar we zoeken.
+     * @return Persoon|null Het gevonden Persoon-object of null als er geen overeenkomstige persoon werd gevonden.
+     * */
+    public static function findById(PDO $db, int $id): ?Persoon
     {
         // Voorbereiden van de query
         $stmt = $db->prepare("SELECT * FROM persoon WHERE id = :id");
@@ -80,8 +101,14 @@ class Persoon {
         }
     }
 
-    // Methode om personen te zoeken op basis van achternaam
-    public static function findByAchternaam($db, string $achternaam): array
+    /**
+     * Zoek personen op basis van achternaam.
+     *
+     * @param PDO $db De PDO-databaseverbinding.
+     * @param string $achternaam De achternaam om op te zoeken.
+     * @return array Een array van Persoon objecten die aan de zoekcriteria voldoen.
+     */
+    public static function findByAchternaam(PDO $db, string $achternaam): array
     {
         //Zet de achternaam eerst om naar lowercase letters
         $achternaam = strtolower($achternaam);
@@ -116,7 +143,7 @@ class Persoon {
     }
 
     // Methode om een nieuwe persoon toe te voegen aan de database
-    public function save($db): void
+    public function save(PDO $db): void
     {
         // Voorbereiden van de query
         $stmt = $db->prepare("INSERT INTO persoon (voornaam, achternaam, telefoonnummer, email, opmerkingen) VALUES (:voornaam, :achternaam, :telefoonnummer, :email, :opmerkingen)");
@@ -129,7 +156,7 @@ class Persoon {
     }
 
     // Methode om een bestaande persoon bij te werken op basis van ID
-    public function update($db): void
+    public function update(PDO $db): void
     {
         // Voorbereiden van de query
         $stmt = $db->prepare("UPDATE persoon SET voornaam = :voornaam, achternaam = :achternaam, telefoonnummer = :telefoonnummer, email = :email, opmerkingen = :opmerkingen WHERE id = :id");
@@ -174,27 +201,27 @@ class Persoon {
     }
 
     // Setters
-    public function setVoornaam($voornaam): void
+    public function setVoornaam(string $voornaam): void
     {
         $this->voornaam = $voornaam;
     }
 
-    public function setAchternaam($achternaam): void
+    public function setAchternaam(string $achternaam): void
     {
         $this->achternaam = $achternaam;
     }
 
-    public function setTelefoonnummer($telefoonnummer): void
+    public function setTelefoonnummer(string $telefoonnummer): void
     {
         $this->telefoonnummer = $telefoonnummer;
     }
 
-    public function setEmail($email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    public function setOpmerkingen($opmerkingen): void
+    public function setOpmerkingen(string $opmerkingen): void
     {
         $this->opmerkingen = $opmerkingen;
     }
