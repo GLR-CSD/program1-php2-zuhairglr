@@ -31,7 +31,9 @@ class Persoon {
      * @param string|null $email Het e-mailadres van de persoon (optioneel).
      * @param string|null $opmerkingen Eventuele opmerkingen over de persoon (optioneel).
      */
-    public function __construct(?int $id, string $voornaam, string $achternaam, ?string $telefoonnummer, ?string $email, ?string $opmerkingen)
+    public function __construct(?int $id, string $voornaam, string $achternaam, ?string $telefoonnummer,
+                                ?string $email, ?string $opmerkingen)
+
     {
         $this->id = $id;
         $this->voornaam = $voornaam;

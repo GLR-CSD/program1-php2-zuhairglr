@@ -7,12 +7,13 @@ Het doel van dit project is om een CRUD (Create, Read, Update, Delete) applicati
 
 ### Technieken:
 
-Composer: We gebruiken Composer om dependencies te beheren en onze code te organiseren.
-MVC: We gebruiken een Model-View-Controller (MVC) architectuur om onze code te structureren en scheiding van concerns te realiseren.
-.env: We gebruiken een .env-bestand om gevoelige informatie, zoals database-instellingen, te beschermen.
-SQLite: We gebruiken een SQLite database om onze albumdata op te slaan.
-Best practices: We volgen best practices voor PHP-ontwikkeling, zoals codestijl, documentatie, en testen.
-Functies:
+* Composer: We gebruiken Composer om dependencies te beheren en onze code te organiseren.
+* MVC: We gebruiken een Model-View-Controller (MVC) architectuur om onze code te structureren en scheiding van concerns te realiseren.
+* .env: We gebruiken een .env-bestand om gevoelige informatie, zoals database-instellingen, te beschermen.
+* SQLite: We gebruiken een SQLite database om onze albumdata op te slaan.
+* Best practices: We volgen best practices voor PHP-ontwikkeling, zoals codestijl, documentatie, en testen.
+
+### Functies:
 
 In deze eerste fase van het project focussen we op de Create- en Read-functionaliteit:
 

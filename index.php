@@ -1,4 +1,4 @@
-<?php
+s<?php
 session_start();
 
 // Haal de eventuele fouten en formulier waarden op uit de sessie
@@ -14,7 +14,6 @@ require_once 'classes/Persoon.php';
 
 // Haal alle personen op uit de database
 $personen = Persoon::getAll($db);
-
 
 // Laad de view
 include 'views/index_view.php';
