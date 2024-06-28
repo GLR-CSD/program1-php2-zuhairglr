@@ -1,4 +1,4 @@
-s<?php
+<?php
 session_start();
 
 // Haal de eventuele fouten en formulier waarden op uit de sessie
@@ -10,10 +10,10 @@ unset($_SESSION['errors']);
 unset($_SESSION['formValues']);
 
 require_once 'db.php';
-require_once 'classes/Persoon.php';
+require_once 'classes/Product.php';
 
 // Haal alle personen op uit de database
-$personen = Persoon::getAll($db);
+$product = Product::getAll($db);
 
 // Laad de view
 include 'views/index_view.php';

@@ -1,68 +1,119 @@
 <?php
-// Start de sessie
-// Deze gaan we gebruiken om de form values en de errors op te slaan
-session_start();
+require_once 'db.php';
+require_once 'classes/Product.php';
 
-// Controleer of het verzoek via POST is gedaan
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Valideer de ingediende gegevens
-    $errors = [];
-    $formValues = [
-        'voornaam' => $_POST['voornaam'] ?? '',
-        'achternaam' => $_POST['achternaam'] ?? '',
-        'telefoonnummer' => $_POST['telefoonnummer'] ?? '',
-        'email' => $_POST['email'] ?? '',
-        'opmerkingen' => $_POST['opmerkingen'] ?? '',
-    ];
+// Array om foutmeldingen op te slaan
+$errors = [];
 
-    // Valideer voornaam
-    if (empty($_POST['voornaam'])) {
-        $errors['voornaam'] = "Voornaam is verplicht.";
+// Verwerk het formulier indien ingediend
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validatie
+    if (empty($_POST['naam'])) {
+        $errors[] = 'Naam is verplicht.';
     }
+    // Andere validaties voor omschrijving, maat, afbeelding, prijs etc.
 
-    // Valideer achternaam
-    if (empty($_POST['achternaam'])) {
-        $errors['achternaam'] = "Achternaam is verplicht.";
-    }
-
-    // Valideer e-mailadres
-    if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Ongeldig e-mailadres.";
-    }
-
-    // Valideer telefoonnummer (NL-formaat)
-    if (!empty($_POST['telefoonnummer']) && !preg_match("/^(\\+31|0|0031)[1-9][0-9]{8}$/", $_POST['telefoonnummer'])) {
-        $errors['telefoonnummer'] = "Ongeldig telefoonnummer. Voer een geldig Nederlands telefoonnummer in.";
-    }
-
-    // Als er geen validatiefouten zijn, voeg de persoon toe aan de database
+    // Als er geen fouten zijn, sla het product op
     if (empty($errors)) {
-        require_once 'db.php';
-        require_once 'classes/Persoon.php';
-
-        // Maak een nieuw Persoon object met de ingediende gegevens
-        $persoon = new Persoon(
+        $product = new Product(
             null,
-            $_POST['voornaam'],
-            $_POST['achternaam'],
-            $_POST['telefoonnummer'],
-            $_POST['email'],
-            $_POST['opmerkingen']
+            $_POST['naam'],
+            $_POST['omschrijving'],
+            $_POST['maat'],
+            $_POST['afbeelding'],
+            (int)$_POST['prijs'] * 100 // Prijs in centen opslaan
         );
+        $product->save($db);
 
-        // Voeg de persoon toe aan de database
-        $persoon->save($db);
-
-    } else {
-        // Sla de fouten en formulier waarden op in sessievariabelen
-        $_SESSION['errors'] = $errors;
-        $_SESSION['formValues'] = $formValues;
+        // Optioneel: Stuur gebruiker door naar de productenpagina na toevoegen
+        header('Location: product_view.php');
+        exit;
     }
-
-    // Stuur de gebruiker terug naar de index.php
-    header("Location: index.php");
-    exit;
-
-} else {
-    header("Location: index.php");
 }
+?>
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toevoegen Product</title>
+    <style>
+        /* Basis CSS voor de opmaak (kan uitgebreid worden naar wens) */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Voeg een nieuw product toe</h1>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+    <div class="form-group">
+        <label for="naam">Naam:</label>
+        <input type="text" id="naam" name="naam" required>
+    </div>
+    <div class="form-group">
+        <label for="omschrijving">Omschrijving:</label>
+        <textarea id="omschrijving" name="omschrijving"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="maat">Maat:</label>
+        <input type="text" id="maat" name="maat">
+    </div>
+    <div class="form-group">
+        <label for="afbeelding">Afbeelding URL:</label>
+        <input type="text" id="afbeelding" name="afbeelding">
+    </div>
+    <div class="form-group">
+        <label for="prijs">Prijs (in eurocenten):</label>
+        <input type="number" id="prijs" name="prijs" required>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Opslaan">
+    </div>
+</form>
+
+<?php if (!empty($errors)): ?>
+    <div class="error">
+        <ul>
+            <?php foreach ($errors as $error): ?>
+                <li><?php echo htmlspecialchars($error); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+</body>
+</html>
