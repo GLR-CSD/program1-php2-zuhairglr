@@ -1,60 +1,97 @@
+/* Basisstijlen voor de opmaak */
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
 }
 
 h1 {
-    color: #333;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
 }
 
 form {
-    background: #fff;
+    border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 label {
     display: block;
     margin-bottom: 10px;
-    color: #555;
 }
 
-input[type="text"], input[type="number"], textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
+input[type="text"], input[type="url"], input[type="number"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-button {
-    display: inline-block;
+button[type="submit"] {
     padding: 10px 20px;
-    color: #fff;
     background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-button:hover {
+button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
+/* Media queries voor responsieve opmaak */
+
+@media (max-width: 600px) {
+    /* Voor kleinere schermen, pas de marges en padding aan */
+    body {
+        padding: 10px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    li {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
 }
 
-li {
-    background: #fff;
-    margin-bottom: 10px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+@media (max-width: 400px) {
+    /* Nog kleinere schermen, pas de fontgrootte aan */
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    li {
+        font-size: 14px;
+    }
 }

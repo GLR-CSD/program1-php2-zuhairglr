@@ -1,5 +1,6 @@
 <?php
-require_once '/pad/naar/db.php';
+require_once 'header.php';
+require_once 'db.php';
 require_once 'classes/Product.php';
 
 // Producten ophalen uit de database
@@ -12,32 +13,7 @@ $producten = Product::getAll($db);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producten</title>
-    <style>
-        /* Basis CSS voor de opmaak (kan uitgebreid worden naar wens) */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="simple.css">
 </head>
 <body>
 <h1>Producten</h1>
@@ -54,5 +30,6 @@ $producten = Product::getAll($db);
         </li>
     <?php endforeach; ?>
 </ul>
+<?php require_once 'footer.php'; ?>
 </body>
 </html>
